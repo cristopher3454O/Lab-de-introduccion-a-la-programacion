@@ -1,1 +1,1 @@
-# Lab introduccion a la programacion - Cristopher
+# Lab introducción a la programación - Cristopher
