@@ -94,6 +94,6 @@ En esta primera práctica logramos establecer un flujo de trabajo profesional qu
 | **Crear entorno** | `python3 -m venv venv` |
 | **Activar entorno** | `source venv/bin/activate` |
 | **Instalar librerías** | `pip install numpy` |
-| **Ejecutar programa** | `python ejercicio1.py` |
+
 
 > **Nota final:** Recuerda siempre verificar que el prefijo `(venv)` aparezca en tu terminal antes de empezar a programar o instalar nuevas librerías.
