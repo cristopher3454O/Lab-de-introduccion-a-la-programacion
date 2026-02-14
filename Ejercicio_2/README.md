@@ -78,7 +78,7 @@ Este método realiza la conversión del número decimal a la base indicada.
 3.  Se define una tabla de símbolos:
 
 ``` python
-hexadecimal = "0123456789ABCDEF"
+digitos = "0123456789ABCDEF"
 ```
 
 Esta cadena permite representar valores hasta base 16.
