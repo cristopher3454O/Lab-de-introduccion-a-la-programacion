@@ -23,10 +23,19 @@ class Login:
             largo = len(contraseña) >= 8
             tiene_numero = any(letra.isdigit() for letra in contraseña)
             tiene_letra = any(digito.isalpha() for digito in contraseña)
-            if not (largo and tiene_numero and tiene_letra):
-                print("La contraseña debe tener al menos 8 caracteres, un número y una letra.")
-                contraseña = str(input("Intenta una contraseña válida: "))
-                continue 
+            if not tiene_numero:
+                 print("Al menos un numero")
+                 contraseña = str(input("Intenta una contraseña válida: "))
+                 continue
+            elif  not tiene_letra:
+                 print("Al menos una letra")
+                 contraseña = str(input("Intenta una contraseña válida: "))
+                 continue
+            elif not largo:
+                 print("minimo 8 caracteres")
+                 contraseña = str(input("Intenta una contraseña válida: "))
+                 continue
+
             print(f"Contraseña incorrecta, vuelve a intentarlo intentos restantes {3-intentos}")
             contraseña=str(input("Contraseña: "))
             intentos=intentos+1
@@ -36,11 +45,13 @@ class Login:
             print("Intentos acabados")
 
 usuario=str(input("Ingresa tu Usuario: "))
-obj=Login(usuario)
+obj=Login(usuario, "")
 
 resultadoUsuario=obj.Usuario(usuario)
 if (resultadoUsuario == True):
     contraseña=str(input("Ingrese la contraseña: "))
     obj.Contraseña(contraseña)
+
+ 
 
  
