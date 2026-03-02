@@ -3,12 +3,16 @@ class Login:
         self.usuario= str(usuario)
         self.contraseña=str(contraseña)
 
+
     def Usuario(self,usuario):
             usuarioAdmin="Admin"
-            while (usuario == "" or usuario != usuarioAdmin):
+            while (usuario == "" or usuario != usuarioAdmin or usuario==" "):
                 if (usuario == ""):
                     print("Usuario vacio")
-                    usuario = input("Ingresa un Usuario valido: ")
+                    usuario = str(input("Ingresa un Usuario valido: "))
+                elif " "in usuario:
+                     print("EL usario no puede tener espacios")
+                     usuario = str(input("Ingresa un Usuario valido: "))
                 else:
                     print("Usuario no encontrado intenta otra vez")
                     usuario = input("Usuario : ")
@@ -39,19 +43,136 @@ class Login:
             print(f"Contraseña incorrecta, vuelve a intentarlo intentos restantes {3-intentos}")
             contraseña=str(input("Contraseña: "))
             intentos=intentos+1
+
+            
         if (contraseña==contraseñaAdmin):
                 print("Bienvenido")
+                return True
         else:
-            print("Intentos acabados")
+            print("Intentos acabados usuario bloqueado ")
 
-usuario=str(input("Ingresa tu Usuario: "))
-obj=Login(usuario, "")
+    def Clasificacion_numeros(self):
+          opcion=0
+          while True:
+               num=int(input("Ingresa el numero que quieres clasificar, solo numeros enteros "))
+               if (num<0):
+                    print("Tu numero es negativo")
+               elif (num==0):
+                    print("Tu numero es Cero")
+               elif (num>0):
+                    if (num%2==0):
+                         print("Tu numero es positivo y es par ")
+                    else:
+                         print("Tu numero es positvo y es impar ")
+          
+               opcion=int(input("1.Salir a menún principal "
+               "2. Continuar "))
+               if (opcion==1):
+                    return False
 
-resultadoUsuario=obj.Usuario(usuario)
-if (resultadoUsuario == True):
-    contraseña=str(input("Ingrese la contraseña: "))
-    obj.Contraseña(contraseña)
+    def Reglas_negocio(self):
+         while True:         
+               edad=int(input("Dame tu edad de 0 a 120 años "))
+               if(edad<0 or edad>120):
+                    print("Estas fuera del rango de edad ")
+                    continue
+
+               ide=str(input("¿Cuentas con identificación oficial (S/N)? "))
+               if not (ide=="S" or ide=="N"):
+                    print("Solo se aceptan S O N vuelve a empezar ")
+                    continue
+               lic=str(input("¿Cuentas con licencia de conducir (S/N)? "))
+               if not (ide=="S" or ide=="N"):
+                    print("Solo se aceptan S O N vuelve a empezar ")
+                    continue
+
+               if (edad>0 and edad<=12):
+                    print(f"Tu edad es {edad} eres un niño, necesitas tutor para registrarte ")
+                    print("Necesista IDE y 21 años en adelante para el servicio VIP")
+
+                    if (lic=="S"):
+                         print("Puedes conducir ")
+                    else:
+                         print("No puedes conducir ")
+                    
+               
+               if (edad>12 and edad <=17):
+                    print(f"Tu edad es {edad} eres un adolescente puedes registrarte con tu tutor ")
+                    print("Necesista IDE y 21 años en adelante para el servicio VIP")
+                    if (lic=="S"):
+                         print("Puedes conducir ")
+                    else:
+                         print("No puedes conducir ")
+                    
+               if (edad>=18 and edad <=64):
+                    print(f"Tu edad es {edad} eres un adulto puedes registrarte ")
+                    if (edad >=21):
+                         if (ide=="S"):
+                              print("Puedes adquirir un servicio VIP ")
+                         else:
+                              print("Necesitad IDE para un servicio Vip")
+                    if (lic=="S"):
+                         print("Puedes conducir ")
+                    else:
+                         print("No puedes conducir ")
+               if(edad>65):
+                    print(f"Tu edad es {edad} eres un adulto mayor puede registrarte ")
+                    if (ide=="S"):
+                         print("Puedes adquirir un servicio VIP ")
+                    else:
+                         print("Necesitad IDE para un servicio Vip")
+                    if (lic=="S"):
+                         print("Puedes conducir ")
+                    else:
+                         print("No puedes conducir ")
+
+               opcion=int(input("Deseas volver a iniciar el programa ? 1. SI 2.Volver menu principal "))
+               if (opcion==2):
+                    return False
+
+
+    def Menu(self):
+         while True:
+            print("MENU DE OPCIONES ")
+            print("1.Clasificar número (positivo/negativo/cero +par/inpar)")
+            print("2.Categoria de edad y permiso (reglas de negocio)")
+            print("3.Calcular tarifa final (descuentos multiples)")
+            print("4.Cerrar sesión (volver login )")
+            print("5.Salir")
+            opcion=int(input("Selecciona una opción: "))
+
+            match opcion:
+              case 1:
+                   obj.Clasificacion_numeros()
+              case 2:
+                   obj.Reglas_negocio()
+              case 3:
+                   print("Opcion no disponible en este momento")
+              case 4:
+                   print("Cerrando sesion")  
+                   return True                
+              case 5:
+                   print("Cerrando programa ")
+                   return False
+              case _:
+                   print("Opcion no valida")
+            
+      
+while True:
+    usuario=str(input("Ingresa tu Usuario: "))
+    obj=Login(usuario, "")
+
+    resultadoUsuario=obj.Usuario(usuario)
+    if (resultadoUsuario == True):
+        contraseña=str(input("Ingrese la contraseña: "))
+        if obj.Contraseña(contraseña)==True:
+                regresar=obj.Menu()
+                if regresar==True:
+                     continue
+                elif regresar==False:
+                     break
+
+
 
  
-
  
