@@ -1,0 +1,259 @@
+class Login:
+    def __init__(self, usuario, contraseña):
+        self.usuario= str(usuario)
+        self.contraseña=str(contraseña)
+
+
+    def Usuario(self,usuario):
+            usuarioAdmin="Admin"
+            while (usuario == "" or usuario != usuarioAdmin or usuario==" "):
+                if (usuario == ""):
+                    print("Usuario vacio")
+                    usuario = str(input("Ingresa un Usuario valido: "))
+                elif " "in usuario:
+                     print("EL usario no puede tener espacios")
+                     usuario = str(input("Ingresa un Usuario valido: "))
+                else:
+                    print("Usuario no encontrado intenta otra vez")
+                    usuario = input("Usuario : ")
+        
+            print("Usuario encontrado")
+            return True
+
+    def Contraseña(self,contraseña):
+        intentos=0
+        contraseñaAdmin="Admin2026"
+        while (contraseña!=contraseñaAdmin and intentos<3):
+            largo = len(contraseña) >= 8
+            tiene_numero = any(letra.isdigit() for letra in contraseña)
+            tiene_letra = any(digito.isalpha() for digito in contraseña)
+            if not tiene_numero:
+                 print("Al menos un numero")
+                 contraseña = str(input("Intenta una contraseña válida: "))
+                 continue
+            elif  not tiene_letra:
+                 print("Al menos una letra")
+                 contraseña = str(input("Intenta una contraseña válida: "))
+                 continue
+            elif not largo:
+                 print("minimo 8 caracteres")
+                 contraseña = str(input("Intenta una contraseña válida: "))
+                 continue
+
+            print(f"Contraseña incorrecta, vuelve a intentarlo intentos restantes {3-intentos}")
+            contraseña=str(input("Contraseña: "))
+            intentos=intentos+1
+
+            
+        if (contraseña==contraseñaAdmin):
+                print("Bienvenido")
+                return True
+        else:
+            print("Intentos acabados usuario bloqueado ")
+
+    def Clasificacion_numeros(self):
+          opcion=0
+          while True:
+               num=int(input("Ingresa el numero que quieres clasificar, solo numeros enteros "))
+               if (num<0):
+                    print("Tu numero es negativo")
+               elif (num==0):
+                    print("Tu numero es Cero")
+               elif (num>0):
+                    if (num%2==0):
+                         print("Tu numero es positivo y es par ")
+                    else:
+                         print("Tu numero es positvo y es impar ")
+          
+               opcion=int(input("1.Salir a menún principal "
+               "2. Continuar "))
+               if (opcion==1):
+                    return False
+
+    def Reglas_negocio(self):
+         while True:         
+               edad=int(input("Dame tu edad de 0 a 120 años "))
+               if(edad<0 or edad>120):
+                    print("Estas fuera del rango de edad ")
+                    continue
+
+               ide=str(input("¿Cuentas con identificación oficial (S/N)? "))
+               if not (ide=="S" or ide=="N"):
+                    print("Solo se aceptan S O N vuelve a empezar ")
+                    continue
+               lic=str(input("¿Cuentas con licencia de conducir (S/N)? "))
+               if not (ide=="S" or ide=="N"):
+                    print("Solo se aceptan S O N vuelve a empezar ")
+                    continue
+
+               if (edad>0 and edad<=12):
+                    print(f"Tu edad es {edad} eres un niño, necesitas tutor para registrarte ")
+                    print("Necesista IDE y 21 años en adelante para el servicio VIP")
+
+                    if (lic=="S"):
+                         print("Puedes conducir ")
+                    else:
+                         print("No puedes conducir ")
+                    
+               if (edad>12 and edad <=17):
+                    print(f"Tu edad es {edad} eres un adolescente puedes registrarte con tu tutor ")
+                    print("Necesista IDE y 21 años en adelante para el servicio VIP")
+                    if (lic=="S"):
+                         print("Puedes conducir ")
+                    else:
+                         print("No puedes conducir ")
+                    
+               if (edad>=18 and edad <=64):
+                    print(f"Tu edad es {edad} eres un adulto puedes registrarte ")
+                    if (edad >=21):
+                         if (ide=="S"):
+                              print("Puedes adquirir un servicio VIP ")
+                         else:
+                              print("Necesitad IDE para un servicio Vip")
+                    if (lic=="S"):
+                         print("Puedes conducir ")
+                    else:
+                         print("No puedes conducir ")
+               if(edad>65):
+                    print(f"Tu edad es {edad} eres un adulto mayor puede registrarte ")
+                    if (ide=="S"):
+                         print("Puedes adquirir un servicio VIP ")
+                    else:
+                         print("Necesitad IDE para un servicio Vip")
+                    if (lic=="S"):
+                         print("Puedes conducir ")
+                    else:
+                         print("No puedes conducir ")
+
+               opcion=int(input("Deseas volver a iniciar el programa ? 1. SI 2.Volver menu principal "))
+               if (opcion==2):
+                    return False
+               
+    def Calcular_Tarifa(self):
+         print("Pase diario con base 200$")
+         while True:
+          edad=int(input("Dame tu edad : "))
+
+          while (edad <=0 or edad >120):
+               print("Edad Fuera de rango Intena de nuevo:")
+               edad=int(input("EDAD:"))
+          print("1.Lunes",
+                 "2.Martes",
+                 "3.Miercoles",
+                 "4.Jueves",
+                 "5.Viernes",
+                 "6.Sabado",
+                 "7.Domingo")
+          dia=int(input("Ingresa el dia de la semana:"))
+          while(dia<=0 or dia >7):
+               print("Solo numeros del 1 al 7")
+               dia=int(input("DIA: "))
+          
+          est=str(input("Eres estudiante (S/N) "))
+          mie=str(input("Eres miembro (S/N) "))
+          acum=200
+
+          if (dia>=6 and dia<=7):
+               pago=-20
+               print(f"Recargo del 10% por retraso  ")
+          else:
+               pago=0
+
+          if (edad>0 and edad <=12):
+               des=0.50
+               if (est=="S"):
+                    des=des+0.15
+                    print(f"Felicidades tiene descuento de estudiante de 15%")
+               if(mie=="S"):
+                    des=des+0.10
+                    print(f"Tienes descuento de miembro 10%")
+               else:
+                    print(f"Descuento de edad de 0-12 50% ")
+                    
+          if (edad>=13 and edad <=17):
+               des=0
+               des=des+0.20
+               print(f"Descuento por edad de 13-17 es de 20%")
+               if(mie=="S"):
+                    des=des+0.10
+                    print(f"Tienes descuento de miembro 10%")
+          if (edad>17 and edad <65):
+               des=0
+               print("Ningun descuento disponible por edad ")
+               if (est=="S"):
+                    des=des+0.15
+                    print(f"Felicidades tiene descuento de estudiante de 15%")
+               if(mie=="S"):
+                    des=des+0.10
+                    print(f"Tienes descuento de miembro 10% ")
+
+          if (edad >65):
+               des=0
+               des=des+0.30
+               print(f"Descuento por edad de 65+ es de 30%")
+               if(mie=="S"):
+                    des=des+0.10
+                    print(f"Tienes descuento de miembro 10%")
+
+          pag=str(input("Pagaras con efectivo (S/N)"))
+          if (pag=="S"):
+               des=des+0.05
+               print("Felicidades descuento del 5%")
+          if (des>=0.60):
+               desf=0.60
+               print("El maximo de descuentos es 60%")
+               print("Precio base de 200")
+               print("Descuento aplicado del 60%")
+               pagofinal=200-(200*desf)-pago
+               print(f"TOTAL {pagofinal}")
+               opc=int(input("1.Salir a menu princial 2.Continuar "))
+          else:
+               print(f"Total de descuentos {des*100}%")
+               pagofinal=200-(200*des)-pago
+               print(f"Total a pagar {pagofinal}")
+               opc=int(input("1.Salir a menu princial 2.Continuar "))
+               if (opc==1):
+                    return False
+
+    def Menu(self):
+         while True:
+            print("MENU DE OPCIONES ")
+            print("1.Clasificar número (positivo/negativo/cero +par/inpar)")
+            print("2.Categoria de edad y permiso (reglas de negocio)")
+            print("3.Calcular tarifa final (descuentos multiples)")
+            print("4.Cerrar sesión (volver login )")
+            print("5.Salir")
+            opcion=int(input("Selecciona una opción: "))
+
+            match opcion:
+              case 1:
+                   obj.Clasificacion_numeros()
+              case 2:
+                   obj.Reglas_negocio()
+              case 3:
+                   obj.Calcular_Tarifa()
+              case 4:
+                   print("Cerrando sesion")  
+                   return True                
+              case 5:
+                   print("Cerrando programa ")
+                   return False
+              case _:
+                   print("Opcion no valida")
+            
+while True:
+    usuario=str(input("Ingresa tu Usuario: "))
+    obj=Login(usuario, "")
+
+    resultadoUsuario=obj.Usuario(usuario)
+    if (resultadoUsuario == True):
+        contraseña=str(input("Ingrese la contraseña: "))
+        if obj.Contraseña(contraseña)==True:
+                regresar=obj.Menu()
+                if regresar==True:
+                     continue
+                elif regresar==False:
+                     break
+
+
+
