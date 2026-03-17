@@ -104,13 +104,13 @@ class Ejercicios:
 
     def Ejercicio8(self):
         while True:
-            num=int(input("Dame un numero: "))
-            for i in range(1, num+1):
-                for j in range(2*i-1,0,-2):
+            num = int(input("Dame un numero de filas: "))
+            for i in range(1, num + 1): 
+                for j in range(2 * i - 1, 0, -2):
                     print(j, end=", ")
-                print()
-            opc=int(input("1.REINICIAR 2.SALIR MENÚ: "))
-            if opc==2:
+                print() 
+            opc = int(input("1.REINICIAR 2.SALIR MENÚ: "))
+            if opc == 2:
                 return False
             
     def Ejercicio9(self):
