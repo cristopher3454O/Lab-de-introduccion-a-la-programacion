@@ -85,16 +85,22 @@ class Ejercicios:
                 return False
 
     def Ejercicio7(self):
-        while True:
-            dat=int(input("Elige la tabla que quieres ver 1-10: "))
-            print(f"Tabla del {dat}")
-            for i in range(10):
-                i=i+1
-                mult=i*dat
-                print(f"{dat} x {i}")
-            opc=int(input("1.REINICIAR 2.SALIR MENÚ: "))
-            if opc==2:
-                return False
+            while True:
+                inicio = 1
+                fin = 11
+                i = 0
+                while inicio < fin: 
+                    print(f"TABLA DEL {inicio}")
+                    while i < 10:
+                        i = i + 1
+                        resultado = inicio * i
+                        print(f"  {inicio} x {i} = {resultado}")
+                    print()
+                    inicio = inicio + 1
+                    i = 0
+                opc = int(input("1.REINICIAR 2.SALIR MENÚ: "))
+                if opc == 2:
+                    return False
 
     def Ejercicio8(self):
         while True:
