@@ -1,0 +1,49 @@
+body{
+    margin: 0;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 0;
+    background-image: url(../assets/fondo.jpg);
+    background-size: cover; /* la iamgen solo ocupe el espacio de la pantalla */
+    background-position: center; /*Imagen centrada */
+    background-repeat: no-repeat; /*la imagen no se repita para nada */
+    background-attachment: fixed; /*la iamagen no se mueva al hacer scroll */
+}
+.contenedor {
+    display: flex;          /* Activamos modo flexbox */
+    flex-direction: column; /* Apilamos hacia abajo */
+    align-items: center;    /* Centramos horizontalmente */
+    margin: 20px auto;      /* Centramos el contenedor mismo */
+    padding: 0;
+    width: 85%;
+}
+
+.contenedor-1 {
+    width: 100%;            /* Toma todo el ancho disponible */
+    margin: 0 0 20px 0;     /* Espacio entre cada contenedor */
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px); /* Un poco más de blur para que luzca más */
+    border-radius: 30px;
+    border: solid 1px rgb(255, 255, 255);
+    color: white;
+}
+
+.contenedor h1 {
+    text-align: center;
+    color: white;
+    font-size: 1.5rem;
+    margin-top: 0;
+}
+
+.editacion {
+    color: white;
+}
+
+/* Ajuste extra para que los campos dentro de contenedor-1 se vean bien */
+.campo-info {
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+}

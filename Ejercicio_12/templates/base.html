@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SonidoBrothers | Inventario</title>
+    <!--
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v={{ range(111, 999) | random }}">
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+<body>
+    <div class="contenedor">
+        <div class="contenedor-1">
+    <header>
+        <nav>
+            <h1>Scanner Productos</h1>
+        </nav>
+    </header>
+        </div>
+
+    <main class="contenedor-1">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+
+<script src="{{ url_for('static', filename='js/scanner.js') }}" defer></script>
+</body>
+</html>

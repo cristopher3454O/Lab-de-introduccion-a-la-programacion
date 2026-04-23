@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="contenedor">
+    
+        <h1>Lector de Códigos</h1>
+        <div id="reader" style="width: 100%;"></div>
+
+    <div id="resultado" style="display: none;">
+        <h1 class="editacion">Producto Encontrado</h1>
+        <div class="campo-info">
+            <span class="editacion">Nombre:</span> 
+            <span id="nombre-prod" class="editacion" style="font-weight: bold;"></span>
+        </div>
+        <div class="campo-info">
+            <span class="editacion">Precio:</span> 
+            <span id="precio-prod" class="editacion" style="font-weight: bold;"></span>
+        </div>
+    </div>
+
+    <div id="form-registro"  style="display: none;">
+        <h1 class="editacion">Producto Nuevo</h1>
+        <p class="editacion">Código: <span id="nuevo-codigo"></span></p>
+        <input type="text" id="nombre-input" placeholder="Nombre del producto" style="width: 90%; padding: 10px; margin-bottom: 10px; border-radius: 10px;">
+        <input type="number" id="precio-input" placeholder="Precio" style="width: 90%; padding: 10px; margin-bottom: 10px; border-radius: 10px;">
+        <button onclick="guardarProducto()" style="padding: 10px 20px; border-radius: 10px; cursor: pointer;">Guardar Producto</button>
+    </div>
+
+</div>
+{% endblock %}
