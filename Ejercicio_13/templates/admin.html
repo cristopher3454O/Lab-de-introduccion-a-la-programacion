@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Piolamart Pro - Dashboard</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
+        
+        .main-layout { 
+            display: flex; 
+            gap: 20px; 
+            max-width: 1200px; 
+            margin: auto; 
+            align-items: flex-start;
+        }
+
+        .container-carrito { 
+            flex: 3; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+        }
+
+        .container-qr { 
+            flex: 1; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 12px; 
+            text-align: center; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 20px;
+        }
+
+        h1 { color: #1e293b; border-bottom: 2px solid #3b82f6; padding-bottom: 10px; margin-top: 0; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { background: #3b82f6; color: white; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #e2e8f0; color: #334155; }
+        
+        .total-box { text-align: right; margin-top: 20px; font-size: 24px; font-weight: bold; color: #10b981; }
+
+        #registro-modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                          background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); border: 2px solid #3b82f6; z-index: 1000; }
+        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #cbd5e1; border-radius: 6px; }
+        button { background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        
+        #qr-img { width: 100%; max-width: 200px; margin-top: 15px; border: 1px solid #eee; }
+    </style>
+</head>
+<body>
+
+    <div class="main-layout">
+        <div class="container-carrito">
+            <h1>🛒 Carrito Piolamart Pro</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre del Producto</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-carrito"></tbody>
+            </table>
+            <div class="total-box" id="total-html">Total: $0.00</div>
+        </div>
+
+        <div class="container-qr">
+            <h3 style="margin-top:0;">📱 Activar Pistolete</h3>
+            <p style="font-size: 12px; color: #666;">Escanea para abrir el scanner en tu Samsung</p>
+            <img id="qr-img" src="" alt="Cargando QR...">
+            <p id="url-text" style="font-size: 10px; color: #999; word-break: break-all; margin-top: 10px;"></p>
+        </div>
+    </div>
+
+    <div id="registro-modal">
+        <h3>🆕 Registrar Producto Nuevo</h3>
+        <p>Código: <b id="lbl-codigo" style="color: #3b82f6;"></b></p>
+        
+        <input type="text" id="reg-nombre" placeholder="Nombre (ej. Gansito)">
+        <input type="text" id="reg-sku" placeholder="SKU (ej. ABAR-01)">
+        <input type="number" id="reg-precio" placeholder="Precio de venta ($)">
+        <input type="number" id="reg-stock" placeholder="Cantidad que llegó (Stock)" value="1">
+        
+        <button onclick="enviarRegistro()" style="width: 100%; margin-top: 10px; background: #10b981;">💾 Guardar y Añadir</button>
+    </div>
+
+    <script>
+        // CONFIGURACIÓN DEL QR
+        const urlPistolete = `https://10.1.109.43:5000/scanner`; 
+        document.getElementById('qr-img').src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(urlPistolete)}&size=200x200`;
+        document.getElementById('url-text').innerText = urlPistolete;
+
+        let codigoPendiente = "";
+
+        function refrescar() {
+            fetch('/api/sync')
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.getElementById('tabla-carrito');
+                const totalHtml = document.getElementById('total-html');
+                
+                let filas = "";
+                let suma = 0;
+
+                if (data.lista_productos && data.lista_productos.length > 0) {
+                    data.lista_productos.forEach(prod => {
+                        filas += `
+                            <tr>
+                                <td>${prod.codigo}</td>
+                                <td><b>${prod.nombre}</b></td>
+                                <td>$${parseFloat(prod.precio).toFixed(2)}</td>
+                            </tr>`;
+                        suma += parseFloat(prod.precio);
+                    });
+                } else {
+                    filas = "<tr><td colspan='3' style='text-align:center;'>Esperando primer escaneo...</td></tr>";
+                }
+
+                tbody.innerHTML = filas;
+                totalHtml.innerText = `Total: $${suma.toFixed(2)}`;
+
+                // Abrir modal si el producto es nuevo
+                if (data.evento_tipo === "nuevo") {
+                    codigoPendiente = data.evento_codigo;
+                    document.getElementById('lbl-codigo').innerText = codigoPendiente;
+                    document.getElementById('registro-modal').style.display = 'block';
+                }
+            })
+            .catch(err => console.error("Error al sincronizar:", err));
+        }
+
+        function enviarRegistro() {
+            const data = {
+                codigo: codigoPendiente,
+                nombre: document.getElementById('reg-nombre').value,
+                sku: document.getElementById('reg-sku').value,
+                precio: document.getElementById('reg-precio').value,
+                cantidad: document.getElementById('reg-stock').value // <--- Mandamos el stock
+            };
+
+            fetch('/api/registrar', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            }).then(() => {
+                // Cerrar y limpiar todo
+                document.getElementById('registro-modal').style.display = 'none';
+                document.getElementById('reg-nombre').value = "";
+                document.getElementById('reg-sku').value = "";
+                document.getElementById('reg-precio').value = "";
+                document.getElementById('reg-stock').value = "1";
+            });
+        }
+
+        // UN SOLO intervalo para refrescar todo cada segundo
+        setInterval(refrescar, 1000);
+    </script>
+</body>
+</html>
