@@ -87,21 +87,10 @@ Se definieron y ejecutaron casos de prueba controlados para validar la resilienc
 | **03\. Renderizado de Habitaciones** | Petición HTTP GET a la ruta "/panel" | Consulta completa a la tabla 'habitaciones' y transmisión de la estructura al renderizador HTML. | **Validado Correctamente** |
 | **04\. Automatización de Estatus** | Inserción manual de reserva en habitación ID 104 | Activación del Trigger en SQLite, modificando de forma automática el estatus de la habitación a 'Ocupada'. | **Validado Correctamente** |
 
-6. # **Evidencia Visual (Pantallas)**
 
-Inicio de sesión:
 
-Panel principal:
 
-Check in:
-
-Directorio:
-
-Checkout y facturación:
-
-Vista cuando está ocupada una habitación:
-
-7. # **Conclusiones**
+6. # **Conclusiones**
 
 Hacer este proyecto fue una experiencia increíble para poner en práctica lo que aprendimos en clase. Nos dimos cuenta de que programar una web con bases de datos requiere mucho orden y una lógica clara para que el usuario no tenga problemas. Uno de los mejores momentos fue cuando decidimos simplificar el modelo de datos uniendo la información del huésped directamente con su reserva; eso nos ahorró muchas complicaciones innecesarias. Al final, este trabajo nos deja claro cómo la tecnología puede transformar un negocio tradicional en algo moderno y eficiente. Fue una ventaja tener un compañero que supiera sobre HTML y CSS porque al hacer la interfaz fue más realista y humano, no dependimos de la IA para hacer la interfaz , lo cual le da más el toca humanizado. En general nos ayudó también a tomar experiencia para el futuro crear nuestros propios programas.
 
