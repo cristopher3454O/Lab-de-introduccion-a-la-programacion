@@ -74,227 +74,9 @@ Lenguajes de programación: Python 3 y Flask como los pilares principales. HTML,
 
 Entorno de Desarrollo: Visual Studio CODE Herramientas de apoyo: Flask, IA (Gemini)
 
-5. # **Programa (Código Fuente)**
 
-A continuación se adjunta el código fuente completo correspondiente a cada cosa:
 
-[**Login.py**](http://login.py/)**:** from flask import request
-
-**Panel Principal:** import sqlite3
-
-conexion.row\_factory \= sqlite3.Row cursor \= conexion.cursor()  
-*\# TOOODAS LAS HABITACIONESS*
-
-cursor.execute(
-
-"SELECT \* FROM habitaciones"
-
-)
-
-habitaciones \= cursor.fetchall()
-
-*\# HABITACIONES ACTUALMENTE DISPONIBLES*
-
-cursor.execute("""
-
-SELECT \* FROM habitaciones WHERE estatus \= 'Disponible' """)  
-disponibles \= cursor.fetchall()
-
-*\# OCUPADAS*
-
-cursor.execute("""
-
-SELECT \* FROM habitaciones WHERE estatus \= 'Ocupada' """)  
-ocupadas \= cursor.fetchall()
-
-*\# LIMPIEZA*
-
-cursor.execute("""
-
-SELECT \* FROM habitaciones WHERE estatus \= 'Limpieza' """)  
-limpieza \= cursor.fetchall()
-
-[**App.py**](http://app.py/)**:**
-
-*import sqlite3 import os*
-
-*from flask import Flask, render\_template, request, redirect, flash, url\_for from routes.panel\_central import panel\_principal*
-
-*from routes.checkin\_modulo import checkin\_bp from routes.directorio\_modulo import directorio\_bp from routes.checkout\_modulo import checkout\_bp*
-
-*base\_dir \= os.path.abspath(os.path.dirname(* *file* *)) db\_path \= os.path.join(base\_dir, 'hotel.db')*
-
-*app \= Flask(*  *name*  *)*
-
-*app.secret\_key \= 'mi\_llave\_secreta\_para\_el\_hotel'*
-
-*app.register\_blueprint(checkin\_bp) app.register\_blueprint(directorio\_bp) app.register\_blueprint(checkout\_bp)*
-
-*USUARIOCORRECTO \= "admin" CONTRASENA\_CORRECTA \= "admin2026"*
-
-*@app.route('/') def index():*
-
-*return render\_template('index.html')*
-
-*@app.route('/login', methods=\['POST'\]) def login():*
-
-*usuario \= request.form.get("username") password \= request.form.get("password")*
-
-*if usuario \== USUARIOCORRECTO and password \== CONTRASENA\_CORRECTA: return redirect("/panel")*
-
-*else:*
-
-*flash('Usuario o contraseña incorrectos. Intenta de nuevo.', 'error') return redirect('/')*
-
-*@app.route('/panel')*
-
-*def render\_panel\_principal():*
-
-*conn \= sqlite3.connect(db\_path) conn.row\_factory \= sqlite3.Row cursor \= conn.cursor()*
-
-*cursor.execute("SELECT id, tipo, estatus FROM habitaciones") lista\_habitaciones \= cursor.fetchall()*
-
-*print(f"DEBUG: Encontré {len(lista\_habitaciones)} habitaciones")*
-
-*conn.close()*
-
-*return panel\_principal(datos\_habitaciones=lista\_habitaciones)*
-
-*if*   *name*  *\== '*  *main*  *':*
-
-*app.run(debug=True)*
-
-*Asimismo, se detalla la estructura lógica del esquema DDL ejecutado en el motor relacional SQLite para el soporte de datos corporativos: CREATE TABLE IF NOT EXISTS habitaciones (*
-
-*id INTEGER PRIMARY KEY, tipo TEXT NOT NULL,*
-
-*estatus TEXT NOT NULL CHECK(estatus IN ('Disponible', 'Ocupada', 'Limpieza')), precio\_noche REAL NOT NULL*
-
-*);*
-
-*CREATE TABLE IF NOT EXISTS reservaciones ( id\_reserva INTEGER PRIMARY KEY AUTOINCREMENT,*
-
-*nombre TEXT NOT NULL, apellido\_p TEXT NOT NULL, apellido\_m TEXT NOT NULL, telefono TEXT,*
-
-*id\_habitacion INTEGER NOT NULL, fecha\_entrada TEXT NOT NULL, fecha\_salida TEXT NOT NULL, total\_pagar REAL,*
-
-*pagada INTEGER DEFAULT 0 CHECK(pagada IN (0, 1)),*
-
-*FOREIGN KEY(id\_habitacion) REFERENCES habitaciones(id) ON DELETE RESTRICT*
-
-*);*
-
-*CREATE TRIGGER IF NOT EXISTS actualizar\_estatus\_habitacion AFTER INSERT ON reservaciones*
-
-*BEGIN*
-
-*UPDATE habitaciones SET estatus \= 'Ocupada'*
-
-*WHERE id \= NEW.id\_habitacion; END;*
-
-Asimismo, se detalla la estructura lógica del esquema DDL ejecutado en el motor relacional SQLite para el soporte de datos corporativos:
-
-CREATE TABLE IF NOT EXISTS habitaciones (
-
-	id INTEGER PRIMARY KEY,
-
-	tipo TEXT NOT NULL,
-
-	estatus TEXT NOT NULL CHECK(estatus IN ('Disponible', 'Ocupada', 'Limpieza')),
-
-	precio\_noche REAL NOT NULL
-
-);
-
-CREATE TABLE IF NOT EXISTS reservaciones (
-
-	id\_reserva INTEGER PRIMARY KEY AUTOINCREMENT,
-
-	nombre TEXT NOT NULL,
-
-	apellido\_p TEXT NOT NULL,
-
-	apellido\_m TEXT NOT NULL,
-
-	telefono TEXT,
-
-	id\_habitacion INTEGER NOT NULL,
-
-	fecha\_entrada TEXT NOT NULL,
-
-	fecha\_salida TEXT NOT NULL,
-
-	total\_pagar REAL,
-
-	pagada INTEGER DEFAULT 0 CHECK(pagada IN (0, 1)),
-
-	FOREIGN KEY(id\_habitacion) REFERENCES habitaciones(id) ON DELETE RESTRICT
-
-);
-
-CREATE TRIGGER IF NOT EXISTS actualizar\_estatus\_habitacion AFTER INSERT ON reservaciones
-
-BEGIN
-
-	UPDATE habitaciones
-
-	SET estatus \= 'Ocupada'
-
-	WHERE id \= NEW.id\_habitacion; END;
-
-Asimismo, se detalla la estructura lógica del esquema DDL ejecutado en el motor relacional SQLite para el soporte de datos corporativos:
-
-CREATE TABLE IF NOT EXISTS habitaciones (
-
-  id INTEGER PRIMARY KEY,
-
-  tipo TEXT NOT NULL,
-
-  estatus TEXT NOT NULL CHECK(estatus IN ('Disponible', 'Ocupada', 'Limpieza')),
-
-  precio\_noche REAL NOT NULL
-
-);
-
-CREATE TABLE IF NOT EXISTS reservaciones (
-
-  id\_reserva INTEGER PRIMARY KEY AUTOINCREMENT,
-
-  nombre TEXT NOT NULL,
-
-  apellido\_p TEXT NOT NULL,
-
-  apellido\_m TEXT NOT NULL,
-
-  telefono TEXT,
-
-  id\_habitacion INTEGER NOT NULL,
-
-  fecha\_entrada TEXT NOT NULL,
-
-  fecha\_salida TEXT NOT NULL,
-
-  total\_pagar REAL,
-
-  pagada INTEGER DEFAULT 0 CHECK(pagada IN (0, 1)),
-
-  FOREIGN KEY(id\_habitacion) REFERENCES habitaciones(id) ON DELETE RESTRICT
-
-);
-
-CREATE TRIGGER IF NOT EXISTS actualizar\_estatus\_habitacion AFTER INSERT ON reservaciones
-
-BEGIN
-
-  UPDATE habitaciones
-
-  SET estatus \= 'Ocupada'
-
- WHERE id \= NEW.id\_habitacion; END;
-
-**Prompt utilizado:** Corrige el siguiente codigo de una manera limpia y señala los errores para poder elegir
-
-6. # **Pruebas del Sistema**
+5. # **Pruebas del Sistema**
 
 Se definieron y ejecutaron casos de prueba controlados para validar la resiliencia y el comportamiento dinámico de la solución ante diferentes entradas de datos:
 
@@ -305,7 +87,7 @@ Se definieron y ejecutaron casos de prueba controlados para validar la resilienc
 | **03\. Renderizado de Habitaciones** | Petición HTTP GET a la ruta "/panel" | Consulta completa a la tabla 'habitaciones' y transmisión de la estructura al renderizador HTML. | **Validado Correctamente** |
 | **04\. Automatización de Estatus** | Inserción manual de reserva en habitación ID 104 | Activación del Trigger en SQLite, modificando de forma automática el estatus de la habitación a 'Ocupada'. | **Validado Correctamente** |
 
-7. # **Evidencia Visual (Pantallas)**
+6. # **Evidencia Visual (Pantallas)**
 
 Inicio de sesión:
 
@@ -319,7 +101,7 @@ Checkout y facturación:
 
 Vista cuando está ocupada una habitación:
 
-8. # **Conclusiones**
+7. # **Conclusiones**
 
 Hacer este proyecto fue una experiencia increíble para poner en práctica lo que aprendimos en clase. Nos dimos cuenta de que programar una web con bases de datos requiere mucho orden y una lógica clara para que el usuario no tenga problemas. Uno de los mejores momentos fue cuando decidimos simplificar el modelo de datos uniendo la información del huésped directamente con su reserva; eso nos ahorró muchas complicaciones innecesarias. Al final, este trabajo nos deja claro cómo la tecnología puede transformar un negocio tradicional en algo moderno y eficiente. Fue una ventaja tener un compañero que supiera sobre HTML y CSS porque al hacer la interfaz fue más realista y humano, no dependimos de la IA para hacer la interfaz , lo cual le da más el toca humanizado. En general nos ayudó también a tomar experiencia para el futuro crear nuestros propios programas.
 
